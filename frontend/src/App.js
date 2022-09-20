@@ -1,20 +1,13 @@
-
+import React from 'react';
+import Routes from './components/routes';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-        <p>
-         Bonjour parfait! connecté!
-        </p>
-        <a
-         
-        >
-          TEST
-        </a>
-      </header>
+    <div >
+     
+        <Routes /> 
+      
     </div>
   );
 }
