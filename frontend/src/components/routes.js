@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from '../pages/Home';
 import Feed from '../pages/Feed';
 
-const routes = ()=> {
+const Index = ()=> {
     return (
         <Router>
             <Routes>
@@ -16,5 +16,5 @@ const routes = ()=> {
 };
 
 
-export default routes;
+export default Index;
 
