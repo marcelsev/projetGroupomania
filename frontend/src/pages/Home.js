@@ -2,6 +2,7 @@ import React from 'react';
 import Log from '../components/log';
 import Logo from '../assets/icon-left-font.svg';
 
+
 const Home = ()=> {
 return (
     <div className="home-page">
