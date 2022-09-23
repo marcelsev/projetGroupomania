@@ -14,8 +14,8 @@ const SignUpForm = () => {
         const passwordError = document.querySelector('.password.error');
         const pseudoError = document.querySelector('.pseudo.error');
         const controlPasswordError = document.querySelector(".password-conf.error");
-        const terms = document.querySelector('terms');
-        const termsError = document.querySelector('terms.error');
+        const terms = document.querySelector('.terms');
+        const termsError = document.querySelector('.terms.error');
 
         controlPasswordError.innerHTML = "";
         termsError.innerHTML = "";
@@ -29,8 +29,8 @@ const SignUpForm = () => {
 
         } else{
              await axios({
-                method: "post",
-                url: `${process.env.REACT_APP_API_URL}api/user/register`,
+                method: "POST",
+                url: `http://localhost:3000/api/user/register`,
                 data: {
                     pseudo,
                     email,

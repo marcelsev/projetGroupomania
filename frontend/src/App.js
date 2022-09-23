@@ -11,8 +11,8 @@ const App= () => {
   useEffect(() =>{
     const fetchToken = async ()=> {
     await axios ({
-      method: "get",
-      url: `${process.env.REACT_APP_API_URL}jwtid`,
+      method: "GET",
+      url: `http//:localhost:3000/jwtid`,
       withCredentials:true,
     })
     .then ((res) => {
