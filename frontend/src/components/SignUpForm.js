@@ -14,7 +14,7 @@ const SignUpForm = () => {
         const passwordError = document.querySelector('.password.error');
         const pseudoError = document.querySelector('.pseudo.error');
         const controlPasswordError = document.querySelector(".password-conf.error");
-        const terms = document.querySelector('.terms');
+        const terms = document.getElementById('terms');
         const termsError = document.querySelector('.terms.error');
 
         controlPasswordError.innerHTML = "";
@@ -27,8 +27,8 @@ const SignUpForm = () => {
             if (!terms.checked)
                 termsError.innerHTML = "Veuillez valider les conditions générales.";
 
-        } else{
-             await axios({
+        } else {
+            await axios({
                 method: "POST",
                 url: `http://localhost:3000/api/user/register`,
                 data: {
@@ -39,9 +39,10 @@ const SignUpForm = () => {
             })
                 .then((res) => {
                     if (res.data.errors) {
+                        pseudoError.innerHTML = res.data.errors.pseudo;
                         emailError.innerHTML = res.data.errors.email;
                         passwordError.innerHTML = res.data.errors.password;
-                        pseudoError.innerHTML = res.data.errors.pseudo;
+                        
                     } else {
                         window.location = '/feed';
                     }
@@ -49,14 +50,14 @@ const SignUpForm = () => {
                 .catch((err) => {
                     console.log(err);
                 });
-            }
+        }
     };
 
     return (
         <><form action="" onSubmit={handleSignup} id="sign-up-form">
             <label htmlFor="pseudo">Pseudo</label>
             <br />
-            <input type="text" name="pseudo" id="pesudo" onChange={(e) => setPseudo(e.target.value)} value={pseudo} />
+            <input type="text" name="pseudo" id="pseudo" onChange={(e) => setPseudo(e.target.value)} value={pseudo} />
             <div className="pseudo error"></div>
             <br />
             <label htmlFor="email">Email</label>
@@ -68,6 +69,7 @@ const SignUpForm = () => {
             <br />
             <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} value={password} />
             <div className="password error"></div>
+            <br/>
             <label htmlFor="password-conf">Confirmer mot de passe</label>
             <br />
             <input type="password" name="password" id="password-conf" onChange={(e) => setControlPassword(e.target.value)} value={controlPassword} />
@@ -77,7 +79,7 @@ const SignUpForm = () => {
             <label htmlFor="terms"> J'accepte les <a href="/" target="_blank" rel="noopener">conditions générales</a> </label>
             <div className="terms error"></div>
             <br />
-            <input type="submit" value="Valider inscription " />
+            <input type="submit" value="Valider inscription" />
         </form></>
     );
 };
