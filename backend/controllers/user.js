@@ -43,9 +43,6 @@ module.exports.signIn = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-module.exports.logout = (req, res, next)=> {
-
-}
 
 module.exports.getAllUsers = async (req, res, next) => {
     const users = await UserModel.find().select('-password');

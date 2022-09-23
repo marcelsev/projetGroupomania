@@ -77,7 +77,7 @@ const SignUpForm = () => {
             <label htmlFor="terms"> J'accepte les <a href="/" target="_blank" rel="noopener">conditions générales</a> </label>
             <div className="terms error"></div>
             <br />
-            <input type=" submit" value="Valider inscription " />
+            <input type="submit" value="Valider inscription " />
         </form></>
     );
 };
