@@ -22,9 +22,9 @@ const removeCookie= (key) => {
     };
 
     return (
-
-        <li onClick={logout}>
-             Se deconnecter 
+        
+        <li onClick={logout} className= 'logout'>
+            <h2> Déconnexion</h2>
         </li>
 
     );

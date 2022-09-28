@@ -1,13 +1,19 @@
 import React from 'react';
 import Navbar from '../components/navbar';
-
+import Postform from '../components/postform';
 
 
 const Feed = ()=> {
 return (
-    <div>
-     <Navbar />     Hello
+    <div className='feed-page'>
+     <Navbar />    
+     <main>
+        <div className='formulaire-newpost'>
+            <Postform />
+        </div>
+     </main>
     </div>
+   
 );
 };
 

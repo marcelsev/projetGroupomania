@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import Logout from "./logout";
 import { UidContext } from "./AppContext";
-import Logo from '../assets/iconlogo.png';
+import Logo from '../assets/iconlog.png';
   
 const Navbar = () => {
     const uid = useContext(UidContext);
@@ -17,15 +17,12 @@ const Navbar = () => {
                     </NavLink>
                 </div>
                 {uid ? (
-                    <ul> 
-                       
+                    <ul>   
                     </ul>
                 ) : (
                     <ul>
-                         <li className="welcome">
-                            <NavLink exact to = "/feed">
-                            <h5>Bienvienue ''</h5>
-                            </NavLink>
+                         <li className="welcome">    
+                          <h1>Bienvienue</h1>
                         </li>
                         <Logout />
                     </ul>
