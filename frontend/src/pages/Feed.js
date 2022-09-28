@@ -1,9 +1,12 @@
 import React from 'react';
+import Navbar from '../components/navbar';
+
+
 
 const Feed = ()=> {
 return (
     <div>
-        Hello depuis la page Feed
+     <Navbar />     Hello
     </div>
 );
 };

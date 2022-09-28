@@ -14,7 +14,6 @@ const SignInForm = () => {
         axios ( {
             method: "POST",
             url: `http://localhost:3000/api/user/login`,
-            XMLHttpREquest: true,
             data: {
                 email,
                 password,

@@ -2,6 +2,7 @@ const UserModel = require("../models/user");
 const ObjectID = require('mongoose').Types.ObjectId;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { signUpErrors, signInErrors } = require("./errors");
 
 module.exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -13,36 +14,43 @@ module.exports.signup = (req, res, next) => {
             });
             user.save()
                 .then(() => res.status(201).json({ message: 'utilisateur créé' }))
-                .catch(error => res.status(400).json({ message: 'utilisateur/email déjà enregistré ' }));
+                .catch(err => {const errors= signUpErrors(err); res.status(200).json({ message: 'utilisateur/email déjà enregistré ', errors })});
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch (err => { const errors= signUpErrors(err);
+        res.status(200).send({errors})});
+    
 };
 
 module.exports.signIn = (req, res, next) => {
     UserModel.findOne({ email: req.body.email })
-        .then(user => {
-            if (!user) {
-                return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
-            }
-            bcrypt.compare(req.body.password, user.password)
-                .then(valid => {
-                    if (!valid) {
-                        return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
-                    }
-                    res.status(200).json({
-                        userId: user._id,
-                        token: jwt.sign(
-                            { userId: user._id },
-                            'RANDOM_TOKEN_SECRET',
-                            { expiresIn: '24h' }
-                        )
-                    });
-                })
-                .catch(error => res.status(500).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+    .then(user => {
+        if (!user) {
+            return res.status(401).json({ errors});
+        }
+        bcrypt.compare(req.body.password, user.password)
+            .then(valid => {
+                if (!valid) {
+                    return res.status(402).json({ errors });
+                }
+                res.status(200).json({
+                    userId: user._id,
+                    token: jwt.sign(
+                        { userId: user._id },
+                        'RANDOM_TOKEN_SECRET',
+                        { expiresIn: '24h' }
+                    )
+                });
+            })
+            .catch(err => {const errors= signInErrors(err); res.status(200).json({ message: 'email ou mot de passe incorrecte', errors })});
+    })
+    .catch(err => {const errors= signInErrors(err); res.status(200).send({ message: 'incorrecte ', errors })});
 };
 
+module.exports.logout = (req, res, next) => {
+    const maxAge = 24;
+    res.cookie('jwr', '', {maxAge: 1});
+    res.redirect('/');
+}
 
 module.exports.getAllUsers = async (req, res, next) => {
     const users = await UserModel.find().select('-password');
