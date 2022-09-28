@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { timestampParser } from './utils';
 
 const Postform = () => {
     const [message, setMessage] = useState("");
@@ -31,6 +32,7 @@ const Postform = () => {
                     <div className='put-img'>
                         <>  <input type="file" id='file-upload' name='file' accept='.jpg, .jpeg, .png' onChange={(e) => handlePicture(e)} />
                         </>
+                        <span>{timestampParser(Date.now())}</span>
                     </div>
                     <div className='btn-send'>
                         <button className='cancel' onClick={cancelPost}>Annuler message</button>
