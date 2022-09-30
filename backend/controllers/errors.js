@@ -25,11 +25,11 @@ module.exports.signInErrors = (err) => {
 
   if (err.message.includes("email")) 
   console.log(err.message)
-    errors.email = "Email inconnu";
+    errors.email = "Paire login/mot de passe incorrecte";
   
   if (err.message.includes('password'))
   console.log(err.message)
-    errors.password = "Le mot de passe ne correspond pas"
+    errors.password = "Paire login/mot de passe incorrecte"
 
   return errors;
 }

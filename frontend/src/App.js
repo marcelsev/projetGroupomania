@@ -1,6 +1,5 @@
 import React from 'react';
 import Routes from './components/routes';
-import { UidContext } from './components/AppContext';
 
 
 
