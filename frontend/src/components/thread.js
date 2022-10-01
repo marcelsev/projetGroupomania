@@ -5,7 +5,7 @@ import Postform from "./postform";
 function Thread (){
     const [posts , setPosts] = useState([]);
     const getPosts = ()=> {
-        axios.get(`http://localhost:3000/api/feed`)
+        axios.get(`http://localhost:3000/api/post/feed`)
         .then ((res) => {
             return setPosts(res.data);
         })

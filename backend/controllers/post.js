@@ -1,35 +1,27 @@
 const PostModel = require('../models/post');
-const UserModel = require('../models/user');
-const ObjectID = require ('mongoose').Types.ObjectId;
+//const UserModel = require('../models/user');
+//const ObjectID = require ('mongoose').Types.ObjectId;
 const fs = require('fs');
+//const filename = require ('../middleware/multer-config');
 
-
-module.exports.createPost =  (req, res, next) => {
-/*const newPost = new PostModel({
+module.exports.createPost = async (req, res, next) => {
+    const newPost = new PostModel({
     posterId: req.body.posterId,
     message: req.body.message,
     video: req.body.video,
-    imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    
 });
+
 try {
     const post = await newPost.save();
+    
     return res.status(201).json(post);
 } catch (err){
     return res .status(401).send (err);
-} --> */
+} 
 
-    const postObject = JSON.parse(req.body.post);
-    delete postObject._id;
-    const post = new PostModel({
-        ...postObject,
-
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
- });
-    post.save()
-        .then(() => { res.status(201).json({ message: 'post enregistré' }) })
-        .catch(error => { res.status(400).json({ error }) })
+        
 };
-
 
 exports.modifyPost = (req, res, next) => {
     const postObject = req.file ?
