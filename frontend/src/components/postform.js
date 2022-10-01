@@ -16,20 +16,26 @@ const Postform = () => {
         setFile(e.target.files[0]);
     }
 
-    const handlePost = async (e) => {
+    const handlePost = (e) => {
         e.preventDefault();
-        let formdata = new FormData();
-        const id = localStorage.getItem("id");
 
-        await axios({
+        axios({
             method: "POST",
             url: `http://localhost:3000/api/post/feed`,
-            data: formdata,
-            headers: { accessToken: localStorage.getItem("accessToken") }
+            data: {
+                postPicture,
+                message,
+                video, 
+                file
+            }
         })
             .then((res) => {
-                window.location = `/feed/${id}`;
-            });
+                window.location = `/feed`;
+            })
+            
+        .catch ((err)=> {
+            console.log (err)
+        })
     };
 
 

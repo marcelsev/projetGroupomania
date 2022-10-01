@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PostSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
     posterId: { type: String, required: true },
     message: { type: String, required: true },
     imageUrl: { type: String, },
@@ -11,4 +11,4 @@ const PostSchema = mongoose.Schema({
     usersDisliked: { type: Array, default: [], required: true }
 });
 
-module.exports = mongoose.model('post', PostSchema);
+module.exports = mongoose.model('post', postSchema);
