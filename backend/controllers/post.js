@@ -3,29 +3,107 @@ const fs = require('fs');
 
 
 module.exports.createPost = (req, res, next) => {
-    const postObject = JSON.parse(req.body.post);
-    console.log(postObject);
+    console.log(req.body);
+    const postObject = req.body;
+    
     delete postObject._id;
     const post = new PostModel({
-        ...postObject,
+        ...postObject, 
+        posterId: req.auth.userId
 
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     post.save()
         .then(() => { res.status(201).json({ message: 'post enregistré' }) })
-        .catch(error => { res.status(400).json({ error }) })
+        .catch(error => { res.status(401).json({ error }) })
 };
 
 exports.modifyPost = (req, res, next) => {
+    const postObject = req.file ?
+        {
+            ...JSON.parse(req.body.post),
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body };
+    PostModel.findOne({ _id: req.params.id })
+        .then(post => {
+            if (post.userId != req.auth.userId) {
+                res.status(401).json({ message: 'vous ne pouvez pas modifier' });
+            } else {
+                PostModel.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
+                    .then(() => res.status(200).json({ message: 'post modifiée' }))
+                    .catch(error => res.status(400).json({ error }));
+            }
+        })
+        .catch((error) => res.status(500).json({ error }))
 };
 
 
 exports.getAllPost = (req, res, next) => {
     PostModel.find()
-        .then(post => res.status(200).json(post))
+        .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }))
 };
 
-exports.deletePost= (req, res, next) =>{
 
+exports.deletePost= (req, res, next) =>{
+    PostModel.findOne({ _id: req.params.id })
+    .then(post => {
+        if (post.userId != req.auth.userId) {
+            res.status(401).json({ message: 'Not authorized' })
+        } else {
+            const filename = post.imageUrl.split('/images')[1];
+            fs.unlink(`images/${filename}`, () => {
+                PostModel.deleteOne({ _id: req.params.id })
+                    .then(() => res.status(200).json({ message: ' Supprimée' }))
+                    .catch(error => res.status(400).json({ error }));
+            });
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
+};
+
+exports.likePost = (req, res, next) => {
+    switch (req.body.like) {
+        case 1:
+            PostModel.updateOne({ _id: req.params.id }, { $inc: { likes: +1 }, $push: { usersLiked: req.body.userId } })
+                .then(() => res.status(200).json({ message: ' likée' }))
+                .catch(error => res.status(400).json({ error }));
+            break;
+
+        case -1:
+            PostModel.updateOne({ _id: req.params.id }, { $inc: { dislikes: +1 }, $push: { usersDisliked: req.body.userId } })
+                .then(() => res.status(200).json({ message: ' dislikée' }))
+                .catch(error => res.status(400).json({ error }));
+            break;
+
+        case 0:
+            PostModel.findOne({ _id: req.params.id })
+                .then(post => {
+
+                    if (post.usersLiked.includes(req.body.userId)) {
+                        PostModel.updateOne(
+                            { _id: req.params.id },
+                            { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
+                        )
+                            .then(() => res.status(201).json({ message: 'Like annulé' }))
+                            .catch((error) => res.status(400).json({ error }));
+                    }
+
+                    else if (post.usersDisliked.includes(req.body.userId)) {
+                        PostModel.updateOne(
+                            { _id: req.params.id },
+                            { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
+                        )
+                            .then(() => res.status(201).json({ message: 'dislike annulé' }))
+                            .catch((error) => res.status(400).json({ error }));
+                    }
+
+                    else {
+                        res.status(403).json({ message: "erreur." })
+                            .catch((error) => res.status(400).json({ error }));
+                    }
+                })
+                .catch(() => res.status(500).json({ error }));
+            break;
+    }
 };

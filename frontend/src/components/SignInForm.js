@@ -24,6 +24,7 @@ const SignInForm = () => {
                 emailError.innerHTML = res.data.errors.email;
                 passwordError.innerHTML= res.data.errors.password;
             } else {
+                localStorage.setItem("token", JSON.stringify(res.data.token));
                 window.location = '/feed';
             }
         })
@@ -44,7 +45,7 @@ const SignInForm = () => {
             <input type="password" name="password" id="password" onChange={(e) => setPassword (e.target.value)} value={password}/>
             <div className="password error"></div>
             <br/>
-        <input type ="submit" value ="Se Connecter "/>
+        <input type ="submit" value ="Se connecter "/>
         </form></>
     );
 };
