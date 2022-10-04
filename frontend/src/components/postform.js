@@ -4,9 +4,8 @@ import axios from 'axios';
 
 
 const Postform = () => {
-    // const [isLoading, setIsLoading] = useState(true);
+
     const [message, setMessage] = useState("");
-    //const [postPicture, setPostPicture] = useState(null);
     const [video, setVideo] = useState('');
     const [file, setFile] = useState(null);
 

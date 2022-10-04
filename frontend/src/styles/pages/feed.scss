@@ -126,11 +126,20 @@
 
   .fil-actualite{
 
-    border: 2px solid blue ;
+    border: 0px solid $colortertiaire ;
     background-image: url('../../assets/icon-log.png');
     background-repeat: repeat;
     background-attachment: fixed;
     margin: 50px 5px 5px 5px;
+ 
+    .card-post{
+      border: 1px solid $colorprimaire;
+      margin: 20px 20px 0px 0px ;
+      border-radius: 5px;
+      padding: 20px;
+      background-color: white;
+      text-align: center;
+    }
   }
 
 }

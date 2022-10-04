@@ -27,7 +27,12 @@ function Thread() {
         <div className="thread-container">
             <ul>
             {posts.map((post)=>{
-                return (<div>{post._id}</div>)
+                return (
+                    <div className="card-post">
+                <div className="message-post">{post.message}</div>
+                <div className="photo-post-video">{post.file} {post.video}</div>
+                </div>
+                )
             })}
             </ul>
         </div>
