@@ -128,7 +128,8 @@
 
     border: 0px solid $colortertiaire ;
     background-image: url('../../assets/icon-log.png');
-    background-repeat: repeat;
+    background-repeat: round;
+    background-position: center;
     background-attachment: fixed;
     margin: 50px 5px 5px 5px;
  
@@ -139,6 +140,13 @@
       padding: 20px;
       background-color: white;
       text-align: center;
+      box-shadow: 0px 4px 9px 2px $colortertiaire;
+    
+    
+    
+    
+    
+    
     }
   }
 

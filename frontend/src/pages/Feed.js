@@ -14,7 +14,7 @@ const Feed = () => {
             </main>
             <section>
                 <div className='fil-actualite'>
-        <Thread />
+                    <Thread />
                 </div>
             </section>
         </div>
