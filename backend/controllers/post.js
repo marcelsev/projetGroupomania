@@ -9,7 +9,7 @@ module.exports.createPost = (req, res, next) => {
     delete postObject._id;
     const post = new PostModel({
         ...postObject, 
-        userId: req.auth.userId
+        userId: req.auth.userId,
 
         //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });

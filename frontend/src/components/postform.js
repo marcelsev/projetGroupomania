@@ -23,10 +23,12 @@ const Postform = () => {
             }
             const option = {
                 headers:
-            {Authorization : 'Bearer ' + JSON.parse(localStorage.getItem('token'))}}
+            {Authorization : 'Bearer ' + JSON.parse(localStorage.getItem('token'))}};
+        
             axios.post( 'http://localhost:3000/api/post/feed',
                 data,
-                option)
+                option,
+                )
     
                 .then((res) => {
                     if (res.data){
