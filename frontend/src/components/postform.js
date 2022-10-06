@@ -34,8 +34,6 @@ const Postform = () => {
                     if (res.data){
                         window.location = '/feed'
                     } else{}
-
-
                 })
                 .catch((error) => { console.log(error, 'error big') })
         } else {

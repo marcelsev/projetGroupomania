@@ -9,6 +9,7 @@ function Thread() {
     const [isUpdated, setIsUpdated] = useState(false);
     const [textUpdate, setTextUpdate] = useState(null);
     const [users, setUsers] = useState(' ');
+    const [liked, setliked] = useState(false);
 
     const option = {
         headers:
@@ -48,9 +49,20 @@ function Thread() {
 
     }
 
+
+    const likeButton = () => {
+
+         return (
+
+            <div className="like-container">       
+         like
+            </div>
+         )
+    }
+
     return (
         <div className="thread-container">
-            <ul>
+            
                 {posts.map((post) => {
                     return (
                         <div className="card-post">
@@ -82,7 +94,7 @@ function Thread() {
                                         )}
                                         {//users._id === post.userId &&
                                             (<button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
-                                                Modifiquer
+                                                Modifier
                                             </button>
                                             )}
                                     </div>
@@ -95,10 +107,13 @@ function Thread() {
                                     }}>Supprimer</button>
                                 </div>
                             </div>
+                            <div className="like">
+                                <div>{likeButton}</div>
+                            </div>
                         </div>
                     )
                 })}
-            </ul>
+            
         </div>
     )
 }

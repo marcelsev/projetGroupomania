@@ -1,21 +1,33 @@
 const PostModel = require('../models/post');
 const fs = require('fs');
-
+const filename = require('../middleware/multer-config');
 
 module.exports.createPost = (req, res, next) => {
     console.log(req.body);
     const postObject = req.body;
-    
     delete postObject._id;
-    const post = new PostModel({
-        ...postObject, 
-        userId: req.auth.userId,
+    if (req.file !== null) {
+        const post = new PostModel({
+            ...postObject,
+            userId: req.auth.userId,
 
-        //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    });
-    post.save()
-        .then(() => { res.status(201).json({ message: 'post enregistré' }) })
-        .catch(error => { res.status(401).json({ error }) })
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+
+
+        });
+        post.save()
+            .then(() => { res.status(201).json({ message: 'post enregistré' }); console.log('ok') })
+            .catch(error => { res.status(401).json({ error }); console.log(error) })
+    } else {
+        const post = new PostModel({
+            ...postObject,
+            userId: req.auth.userId,
+
+        });
+        post.save()
+            .then(() => { res.status(201).json({ message: 'post enregistré' }); console.log('ok') })
+            .catch(error => { res.status(401).json({ error }); console.log(error) })
+    }
 };
 
 exports.modifyPost = (req, res, next) => {
@@ -45,21 +57,21 @@ exports.getAllPost = (req, res, next) => {
 };
 
 
-exports.deletePost= (req, res, next) =>{
+exports.deletePost = (req, res, next) => {
     PostModel.findOne({ _id: req.params.id })
-    .then(post => {
-        if (post.userId != req.auth.userId) {
-            res.status(401).json({ message: 'Not authorized' })
-        } else {
-            const filename = post.imageUrl.split('/images')[1];
-            fs.unlink(`images/${filename}`, () => {
-                PostModel.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: ' Supprimée' }))
-                    .catch(error => res.status(400).json({ error }));
-            });
-        }
-    })
-    .catch(error => res.status(500).json({ error }));
+        .then(post => {
+            if (post.userId != req.auth.userId) {
+                res.status(401).json({ message: 'Not authorized' })
+            } else {
+                const filename = post.imageUrl.split('/images')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    PostModel.deleteOne({ _id: req.params.id })
+                        .then(() => res.status(200).json({ message: ' Supprimée' }))
+                        .catch(error => res.status(400).json({ error }));
+                });
+            }
+        })
+        .catch(error => res.status(500).json({ error }));
 };
 
 exports.likePost = (req, res, next) => {
