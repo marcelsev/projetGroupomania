@@ -35,6 +35,7 @@ module.exports.signIn = (req, res, next) => {
                 }
                 res.status(200).json({
                     userId: user._id,
+                    pseudo: user.pseudo,
                     token: jwt.sign(
                         { userId: user._id },
                         'RANDOM_TOKEN_SECRET',

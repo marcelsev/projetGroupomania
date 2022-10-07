@@ -4,14 +4,14 @@ import axios from "axios";
 
 const SignInForm = () => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] =  useState ('');
+    const [password, setPassword] = useState('');
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const  emailError = document.querySelector('.email.error');
+        const emailError = document.querySelector('.email.error');
         const passwordError = document.querySelector('.password.error');
 
-        axios ( {
+        axios({
             method: "POST",
             url: `http://localhost:3000/api/user/login`,
             data: {
@@ -19,36 +19,38 @@ const SignInForm = () => {
                 password,
             },
         })
-        .then ((res)=> {
-            if (res.data.errors){
-                emailError.innerHTML = res.data.errors.email;
-                passwordError.innerHTML= res.data.errors.password;
-            } else {
-                localStorage.setItem("token", JSON.stringify(res.data.token));
-                localStorage.setItem("id", JSON.stringify(res.data._id));
-                window.location = '/feed';
-            }
-        })
-        .catch ((err)=> {
-            console.log (err);
-        });
+            .then((res) => {
+               
+                if (res.data.errors) {
+                    emailError.innerHTML = res.data.errors.email;
+                    passwordError.innerHTML = res.data.errors.password;
+                } else {
+                    localStorage.setItem("token", JSON.stringify(res.data.token));
+                    localStorage.setItem("id", JSON.stringify(res.data.userId));
+                    localStorage.setItem("pseudo", JSON.stringify(res.data.pseudo));
+                    window.location = '/feed';
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
-    
+
     return (
-     <><form action="" onSubmit={handleLogin} id="sign-up-form">
+        <><form action="" onSubmit={handleLogin} id="sign-up-form">
             <label htmlFor="email">Email</label>
             <br />
-            <input type="text" name="email" id="email" onChange={(e) => setEmail (e.target.value)} value={email} />
+            <input type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} value={email} />
             <div className="email error" ></div>
-            <br/>
+            <br />
             <label htmlFor="password">Mot de passe</label>
-            <br/>
-            <input type="password" name="password" id="password" onChange={(e) => setPassword (e.target.value)} value={password}/>
+            <br />
+            <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} value={password} />
             <div className="password error"></div>
-            <br/>
-        <input type ="submit" value ="Se connecter "/>
+            <br />
+            <input type="submit" value="Se connecter " />
         </form></>
     );
 };
 
-export default  SignInForm;
+export default SignInForm;

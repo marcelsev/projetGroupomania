@@ -49,18 +49,18 @@ exports.createPost = (req, res, next) => {
     console.log(req.body.post);
     const postObject = req.body;
     const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-console.log(postObject);
+    console.log(postObject);
     delete postObject._id;
     if (req.file !== null) {
         const post = new PostModel({
             ...postObject,
             userId: req.auth.userId,
-        imageUrl: image
+            imageUrl: image
         }); console.log(post)
-        post.save() 
+        post.save()
             .then(() => { res.status(201).json({ message: 'post enregistré' }); console.log('ok') })
             .catch(error => { res.status(401).json({ error }); console.log(error) })
-            console.log(post)
+        console.log(post)
     } else {
         const post = new PostModel({
             ...postObject,

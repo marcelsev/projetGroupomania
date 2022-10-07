@@ -58,6 +58,14 @@
         padding: 0px;
         width: 91%;
 
+        .welcome {
+          display: inline-flex;
+
+          h1 {
+            font-size: 110%;
+          }
+        }
+
         @media screen and(max-width: 550px) {
           grid-template-columns: 1fr;
         }
@@ -83,11 +91,16 @@
   .post-form {
     width: 80%;
 
+    .pseudo-poster {
+      color: $colorprimaire;
+    }
+
     #message {
       width: 90%;
       height: 50px;
       border-radius: 8px;
-      border: 1px double $colorprimaire;
+      border: 2px double $colorprimaire;
+      margin-left: 25px;
     }
 
     .footer-form {
@@ -133,6 +146,11 @@
     background-attachment: fixed;
     margin: 50px 5px 5px 5px;
 
+    .thread-container {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
     .card-post {
       border: 1px solid $colorprimaire;
       margin: 40px 20px 0px 15px;
@@ -150,7 +168,7 @@
       .container-settings {
         display: flex;
         flex-direction: row;
-        align-items: end;
+        align-items: flex-end;
 
         .btn-modif {
           background-color: $colorsecondaire;
@@ -173,7 +191,9 @@
         }
       }
 
-
+      .fa-solid {
+        color: $colorprimaire;
+      }
 
 
     }

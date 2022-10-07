@@ -8,10 +8,12 @@ const Postform = () => {
     const [message, setMessage] = useState("");
     const [video, setVideo] = useState('');
     const [file, setFile] = useState(null);
-    const [users, setUsers] = useState('');
+    //const [users, setUsers] = useState('');
     //const [pseudo, setPseudo] = useState('');
 console.log (file)
 
+const pseudo = localStorage.getItem('pseudo')
+const nom = pseudo.replace(/[ '"]+/g, ' ')
 
     const handlePicture = (e) => {
         setFile(URL.createObjectURL(e.target.files[0]));
@@ -87,6 +89,7 @@ console.log (file)
         <div className='container-form-post'>
 
             <div className='post-form'>
+                <div className='pseudo-poster'>{nom} :</div>
                 <textarea name='message' id='message' placeholder='Quoi de neuf?' onChange={(e) => setMessage(e.target.value)} value={message} />
                 <div className='content-container'>
                     <div className="content">
