@@ -7,7 +7,7 @@ import Logo from '../assets/iconlog.png';
 
 
 const pseudo = localStorage.getItem('pseudo');
-const nom = pseudo.replace(/[ '"]+/g, ' ')
+
 const Navbar = () => {
     const uid = useContext(UidContext);
     return (
@@ -25,7 +25,7 @@ const Navbar = () => {
                 ) : (
                     <ul>
                         <li className="welcome">
-                            <h1>Bienvienue :  </h1><p>{nom} </p>
+                            <h1>Bienvienue :  </h1><p className="nom">{pseudo} </p>
                         </li>
                         <Logout />
                     </ul>

@@ -73,7 +73,7 @@ function Thread() {
             {posts.map((post) => {
                 return (
                     <div className="card-post">
-                        <div className="pseudo">
+                        <div className="pseudo">{nom}
                         </div>
                         <div className="message-post">{post.message}</div>
                         <div className="photo-post-video">{post.file} {post.video}</div>
