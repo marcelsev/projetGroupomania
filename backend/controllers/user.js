@@ -10,7 +10,8 @@ module.exports.signup = (req, res, next) => {
             const user = new UserModel({
                 email: req.body.email,
                 pseudo: req.body.pseudo,
-                password: hash
+                password: hash,
+                admin: false
             });
             user.save()
                 .then(() => res.status(201).json({ message: 'utilisateur créé' }))

@@ -11,4 +11,4 @@ const postSchema = mongoose.Schema({
     usersDisliked: { type: Array, default: [], required: true }
 });
 
-module.exports = mongoose.model('post', postSchema);
+module.exports = mongoose.model('posts', postSchema);

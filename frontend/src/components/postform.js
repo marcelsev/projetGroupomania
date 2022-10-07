@@ -20,23 +20,20 @@ console.log (file)
 
     const handlePost = () => {
         if (message || file || video) {
-            let formData = new FormData();
-            console.log(formData)
-            formData.append('file', file );
             const data = {
                 message, 
                 video, 
-                formData
+                file
             }
             console.log(file);
             console.log(video);
             console.log(message);
-            console.log(formData)
+           
             const option = {
                 headers:
                 {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
-                    "Content-Type": "multipart/form-data"
+                    
                 }
             };
 
