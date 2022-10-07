@@ -3,7 +3,6 @@ import axios from 'axios';
 //import Card from './card-post';
 
 
-
 function Thread() {
     const [posts, setPosts] = useState([]);
     const [isUpdated, setIsUpdated] = useState(false);
@@ -50,14 +49,18 @@ function Thread() {
     }
 
 
-    const likeButton = () => {
+    const like = () => {
 
-         return (
-
-            <div className="like-container">       
-         like
-            </div>
-         )
+        if (liked === false){
+            setliked(false)
+        }else{
+        
+    <div>
+         <i class="fa-solid fa-heart"></i>
+         </div>
+         setliked(true)
+        }
+         
     }
 
     return (
@@ -108,7 +111,7 @@ function Thread() {
                                 </div>
                             </div>
                             <div className="like">
-                                <div>{likeButton}</div>
+                                <div><i class="fa-regular fa-heart" onClick={like}></i></div>
                             </div>
                         </div>
                     )

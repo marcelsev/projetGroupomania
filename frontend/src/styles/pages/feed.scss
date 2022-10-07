@@ -124,7 +124,7 @@
     }
   }
 
-  .fil-actualite{
+  .fil-actualite {
 
     border: 0px solid $colortertiaire ;
     background-image: url('../../assets/icon-log.png');
@@ -132,43 +132,50 @@
     background-position: center;
     background-attachment: fixed;
     margin: 50px 5px 5px 5px;
- 
-    .card-post{
+
+    .card-post {
       border: 1px solid $colorprimaire;
-      margin: 20px 20px 0px 15px ;
+      margin: 40px 20px 0px 15px;
       border-radius: 5px;
       padding: 20px;
       background-color: white;
       text-align: center;
       box-shadow: 0px 4px 9px 2px $colortertiaire;
-    
-    .container-settings{
-      display: flex;
-      flex-direction: row;
-      align-items: end;
 
-.btn-modif{
-  background-color: $colorsecondaire;
-  border-radius: 5px;
-  margin-top: 5px;
-  padding: 5px;
-}
-.btn {
-  border-radius: 5px;
-  background-color: $colorsecondaire;
+      iframe {
+        width: 70%;
+        height: 230px;
+      }
 
-}
-  .btn-delete{
-    border-radius: 5px;
-    color: $colorprimaire;
-    background-color: $colorsecondaire;
-    padding: 5px;
-  }
-    }
-    
-    
-    
-    
+      .container-settings {
+        display: flex;
+        flex-direction: row;
+        align-items: end;
+
+        .btn-modif {
+          background-color: $colorsecondaire;
+          border-radius: 5px;
+          margin-top: 5px;
+          padding: 5px;
+        }
+
+        .btn {
+          border-radius: 5px;
+          background-color: $colorsecondaire;
+
+        }
+
+        .btn-delete {
+          border-radius: 5px;
+          color: $colorprimaire;
+          background-color: $colorsecondaire;
+          padding: 5px;
+        }
+      }
+
+
+
+
     }
   }
 

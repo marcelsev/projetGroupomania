@@ -25,6 +25,7 @@ const SignInForm = () => {
                 passwordError.innerHTML= res.data.errors.password;
             } else {
                 localStorage.setItem("token", JSON.stringify(res.data.token));
+                localStorage.setItem("id", JSON.stringify(res.data._id));
                 window.location = '/feed';
             }
         })

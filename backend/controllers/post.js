@@ -1,23 +1,23 @@
 const PostModel = require('../models/post');
 const fs = require('fs');
-const filename = require('../middleware/multer-config');
+//const filename = require('../middleware/multer-config');
 
-module.exports.createPost = (req, res, next) => {
-    console.log(req.body);
+
+exports.createPost = (req, res, next) => {
+    console.log(req.body.post);
     const postObject = req.body;
+console.log(postObject);
     delete postObject._id;
     if (req.file !== null) {
         const post = new PostModel({
             ...postObject,
             userId: req.auth.userId,
-
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-
-
-        });
-        post.save()
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        }); console.log(post)
+        post.save() 
             .then(() => { res.status(201).json({ message: 'post enregistré' }); console.log('ok') })
             .catch(error => { res.status(401).json({ error }); console.log(error) })
+            console.log(post)
     } else {
         const post = new PostModel({
             ...postObject,

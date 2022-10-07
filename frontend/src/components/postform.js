@@ -8,6 +8,10 @@ const Postform = () => {
     const [message, setMessage] = useState("");
     const [video, setVideo] = useState('');
     const [file, setFile] = useState(null);
+    const [users, setUsers] = useState('');
+    //const [pseudo, setPseudo] = useState('');
+console.log (file)
+
 
     const handlePicture = (e) => {
         setFile(URL.createObjectURL(e.target.files[0]));
@@ -16,31 +20,43 @@ const Postform = () => {
 
     const handlePost = () => {
         if (message || file || video) {
+            let formData = new FormData();
+            console.log(formData)
+            formData.append('file', file );
             const data = {
-                message,
-                video,
-                file
+                message, 
+                video, 
+                formData
             }
+            console.log(file);
+            console.log(video);
+            console.log(message);
+            console.log(formData)
             const option = {
                 headers:
-            {Authorization : 'Bearer ' + JSON.parse(localStorage.getItem('token'))}};
-        
-            axios.post( 'http://localhost:3000/api/post/feed',
+                {
+                    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
+                    "Content-Type": "multipart/form-data"
+                }
+            };
+
+            axios.post('http://localhost:3000/api/post/feed',
                 data,
                 option,
-                )
-    
+            )
+
                 .then((res) => {
-                    if (res.data){
+                    if (res.data) {
+
                         window.location = '/feed'
-                    } else{}
+                    } else { }
                 })
                 .catch((error) => { console.log(error, 'error big') })
         } else {
             alert("mettre text ")
         }
     }
-   
+
 
     const cancelPost = () => {
         setMessage('');

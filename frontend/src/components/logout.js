@@ -19,6 +19,7 @@ const removeCookie= (key) => {
        .catch((err)=> console.log(err)) 
 
        window.location = '/';
+       localStorage.clear();
     };
 
     return (

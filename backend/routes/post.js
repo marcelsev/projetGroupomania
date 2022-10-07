@@ -6,9 +6,9 @@ const postCtrl = require('../controllers/post');
 
 router.get('/feed',  postCtrl.getAllPost);
 router.post('/feed', auth, multer, postCtrl.createPost);
-router.put('/feed:id', auth, multer, postCtrl.modifyPost);
+router.put('/feed/:id', auth, multer, postCtrl.modifyPost);
 router.delete('/feed/:id', auth, postCtrl.deletePost);
-router.post('/feed:id/like', auth, postCtrl.likePost);
+router.post('/feed/:id/like', auth, postCtrl.likePost);
 
 
 
