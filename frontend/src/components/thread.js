@@ -22,7 +22,8 @@ function Thread() {
     const getPosts = () => {
         axios.get('http://localhost:3000/api/post/feed')
             .then((res) => {
-                return setPosts(res.data)
+                console.log(res.data);
+                return setPosts(res.data);
 
             })
             .catch((err) => {
@@ -48,7 +49,7 @@ function Thread() {
     }
 
     const deleteQuote = () => {
-        
+
     }
 
 
@@ -76,7 +77,10 @@ function Thread() {
                         <div className="pseudo">{nom}
                         </div>
                         <div className="message-post">{post.message}</div>
-                        <div className="photo-post-video">{post.file} {post.video}</div>
+                        <div className="photo-post-video">{post.imageUrl} {post.video}</div>
+                        {post.imageUrl && (
+                            <img src={post.imageUrl} alt="card-pic" className="card-pic" />
+                        )}
                         {post.video && (
                             <iframe
                                 width="500"
@@ -90,7 +94,7 @@ function Thread() {
                         )}
                         <div className="container-settings">
                             <div className="card-update">
-                                <div> {isUpdated === false && <p>{post.message}</p>}
+                                <div>
                                     {isUpdated && (
                                         <div className="update-post">
                                             <textarea defaultValue={post.message} onChange={(e) => setTextUpdate(e.target.value)} />

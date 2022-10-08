@@ -14,6 +14,7 @@ console.log (file)
 
 const pseudo = localStorage.getItem('pseudo')
 const nom = pseudo.replace(/[ '"]+/g, ' ')
+const imagefile = document.querySelector('#file-upload');
 
     const handlePicture = (e) => {
         setFile(URL.createObjectURL(e.target.files[0]));
@@ -21,15 +22,14 @@ const nom = pseudo.replace(/[ '"]+/g, ' ')
     }
 
     const handlePost = () => {
-        if (message || file || video) {
-            const data = {
-                message, 
-                video, 
-                file
-            }
-            console.log(file);
-            console.log(video);
-            console.log(message);
+        if (message || imagefile.file || video) {
+            const getImage = imagefile.file
+            console.log("Image is " + getImage)
+            const data = new FormData()
+            data.append("userId", "63413500e7590a0ba24dac5d")
+            data.append("message", message)
+            data.append("image", getImage);
+            data.append("video", video)
            
             const option = {
                 headers:
