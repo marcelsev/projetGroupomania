@@ -1,28 +1,42 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-//import Card from './card-post';
+import { dateParser } from "./utils";
+
 
 
 function Thread() {
     const [posts, setPosts] = useState([]);
     const [isUpdated, setIsUpdated] = useState(false);
     const [textUpdate, setTextUpdate] = useState(null);
-    //const [users, setUsers] = useState(' ');
+    const [users, setUsers] = useState(' ');
     const [liked, setLiked] = useState(false);
 
-    const option = {
-        headers:
-            { Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')) }
-    };
+    // const option = {
+    //     headers:
+    //         { Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')) }
+    // };
+   
+    
 
 
-    const pseudo = localStorage.getItem('pseudo');
-    const nom = pseudo.replace(/[ '"]+/g, ' ')
+    const getUser = ()=>{
+        axios.get('http://localhost:3000/api/user')
+        .then ((res)=>{
+            console.log(res.data);
+            return setUsers(res.data);
+        })
+        .catch ((err)=>{return console.log(err)})
+    }
+
+    // const getPseudo = ()=>{
+    //     posts.map((post)=>{}
+    //     users.map((user)=> {if (user._id === post.userId) return user.pseudo}))
+    // }
 
     const getPosts = () => {
         axios.get('http://localhost:3000/api/post/feed')
             .then((res) => {
-                console.log(res.data);
+                  console.log(res.data);
                 return setPosts(res.data);
 
             })
@@ -33,8 +47,9 @@ function Thread() {
 
     useEffect(() => {
         getPosts();
+        getUser();
     }, []);
-    // console.log(posts)
+    
 
     const updateItem = (message) => {
         axios.put('http://localhost:3000/api/post/feed',
@@ -47,6 +62,7 @@ function Thread() {
             })
             .catch((error) => { console.log(error, 'error update') })
     }
+
 
     const deleteQuote = () => {
 
@@ -70,29 +86,32 @@ function Thread() {
 
     return (
         <div className="thread-container">
-
             {posts.map((post) => {
                 return (
                     <div className="card-post">
-                        <div className="pseudo">{nom}
+                        <div className="pseudo">{users.map((user)=> {if (user._id === post.userId) return user.pseudo})}
                         </div>
-                        <div className="message-post">{post.message}</div>
-                        <div className="photo-post-video">{post.imageUrl} {post.video}</div>
-                        {post.imageUrl && (
-                            <img src={post.imageUrl} alt="card-pic" className="card-pic" />
-                        )}
-                        {post.video && (
-                            <iframe
-                                width="500"
-                                height="300"
-                                src={post.video}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title={post._id}
-                            ></iframe>
-                        )}
+                        <div className="container-contenu">
+                            <div className="message-post">{post.message}</div>
+                            <div className="photo-post-video">{post.image} {post.video}</div>
+                            {post.image && (
+                                <img src={post.image} alt="" className="card-pic" />
+                            )}
+                            {post.video && (
+                                <iframe
+                                    width="500"
+                                    height="300"
+                                    src={post.video}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    title={post._id}
+                                ></iframe>
+                            )}
+                        </div>
+                        <span>{dateParser(post.createdAt)}</span>
                         <div className="container-settings">
+
                             <div className="card-update">
                                 <div>
                                     {isUpdated && (

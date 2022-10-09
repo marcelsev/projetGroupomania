@@ -1,70 +1,23 @@
 const PostModel = require('../models/post');
 const fs = require('fs');
-//const { post } = require('../app');
-//const filename = require('../middleware/multer-config');
-
-/*exports.createPost = (req,res,next)=>{
-    if (req.file){
-        const userId= req.params.id;
-        console.log(userId);
-        const message = req.body.message;
-        console.log(message);
-        const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        console.log(image);
-        const post = new PostModel({
-            userId,
-            message,
-            image,
-        }) 
-        function poster (err , res){
-        if (err){
-            return res.status(404).json({message: 'error post'});
-        } else{
-            post.save () 
-            .then(()=> res.status(200).json({message: 'validé'}))
-            .catch (error=> {res.status(401).json})
-        } console.log(post);
-    }
-    } else {
-        const userId = req.params.id;
-        const message = req.body.message;
-        const post = new PostModel({
-            userId,
-            message,
-            
-        })
-        function poster (err , res){
-        if (err){
-            return res.status(404).json({message: 'error post'});
-        } else{
-            post.save ()
-            .then(()=> res.status(200).json({message: 'validé'}))
-            .catch (error=> {res.status(401).json})
-
-    }
-
-}}}*/
 
 exports.createPost = (req, res, next) => {
-    //console.log(req.body.post);
     const postObject = req.body;
-    console.log(req.file);
+    //console.log(req.file);
     delete postObject._id;
-    if (req.file !== null) {
+    if (req.file) {
         const post = new PostModel({
             ...postObject,
             userId: req.auth.userId,
-            imageUrl: req.file !== undefined?`${req.protocol}://${req.get('host')}/images/${req.file.filename}` : "",
-        }); //console.log(post)
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        })
         post.save()
             .then(() => { res.status(201).json({ message: 'post enregistré' }); console.log('ok') })
             .catch(error => { res.status(401).json({ error }); console.log(error) })
-        //console.log(post)
     } else {
         const post = new PostModel({
             ...postObject,
             userId: req.auth.userId,
-
         });
         post.save()
             .then(() => { res.status(201).json({ message: 'post enregistré' }); console.log('ok') })
@@ -72,11 +25,13 @@ exports.createPost = (req, res, next) => {
     }
 };
 
+
+
 exports.modifyPost = (req, res, next) => {
     const postObject = req.file ?
         {
             ...JSON.parse(req.body.post),
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body };
     PostModel.findOne({ _id: req.params.id })
         .then(post => {
@@ -105,7 +60,7 @@ exports.deletePost = (req, res, next) => {
             if (post.userId != req.auth.userId) {
                 res.status(401).json({ message: 'Not authorized' })
             } else {
-                const filename = post.imageUrl.split('/images')[1];
+                const filename = post.image.split('/images')[1];
                 fs.unlink(`images/${filename}`, () => {
                     PostModel.deleteOne({ _id: req.params.id })
                         .then(() => res.status(200).json({ message: ' Supprimée' }))

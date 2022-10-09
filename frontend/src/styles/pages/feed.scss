@@ -160,25 +160,56 @@
       text-align: center;
       box-shadow: 0px 4px 9px 2px $colortertiaire;
 
-      .message-post {
+      .pseudo {
+        text-align: initial;
+        color: $colorprimaire;
+        font-weight: bolder;
+      }
+
+      .container-contenu {
         border: 2px solid $colortertiaire;
-        border-radius: 0px 15px 15px 15px;
+        border-radius: 0px 15px 15px 40px;
         margin: 10px 40px;
         padding: 10px 20px;
+      }
+
+      .message-post {
+        margin: 10px 30px 30px 40px;
         text-align: initial;
         font-size: large;
       }
 
-      iframe {
-        width: 70%;
-        height: 230px;
+      .photo-post-video {
+        display: none;
       }
 
+      img {
+        border: 2px solid $colortertiaire;
+        border-radius: 10px;
+        width: 73%;
+        height: auto;
+        object-fit: cover;
+      }
+
+
+
+      iframe {
+        width: 80%;
+        height: 230px;
+      }
+      span {
+          font-size: x-small;
+          display: flex;
+          justify-content: flex-end;
+          margin-right: 48px;
+      }
       .container-settings {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
 
+
+       
         .btn-modif {
           background-color: $colorsecondaire;
           border-radius: 5px;
