@@ -30,7 +30,7 @@ exports.createPost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
     const postObject = req.file ?
         {
-            ...JSON.parse(req.body.post),
+            ...(req.body),
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body };
     PostModel.findOne({ _id: req.params.id })
@@ -68,7 +68,7 @@ exports.deletePost = (req, res, next) => {
                 });
             }
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch((error) => { console.log(error, 'error delete') })
 };
 
 exports.likePost = (req, res, next) => {

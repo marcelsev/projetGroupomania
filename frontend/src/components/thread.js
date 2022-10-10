@@ -1,42 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { dateParser } from "./utils";
-
+import Post from './post';
 
 
 function Thread() {
     const [posts, setPosts] = useState([]);
-    const [isUpdated, setIsUpdated] = useState(false);
-    const [textUpdate, setTextUpdate] = useState(null);
-    const [users, setUsers] = useState(' ');
-    const [liked, setLiked] = useState(false);
 
     // const option = {
     //     headers:
     //         { Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')) }
     // };
-   
-    
 
 
-    const getUser = ()=>{
-        axios.get('http://localhost:3000/api/user')
-        .then ((res)=>{
-            console.log(res.data);
-            return setUsers(res.data);
-        })
-        .catch ((err)=>{return console.log(err)})
-    }
 
-    // const getPseudo = ()=>{
-    //     posts.map((post)=>{}
-    //     users.map((user)=> {if (user._id === post.userId) return user.pseudo}))
-    // }
+
 
     const getPosts = () => {
         axios.get('http://localhost:3000/api/post/feed')
             .then((res) => {
-                  console.log(res.data);
+                //console.log(res.data);
                 return setPosts(res.data);
 
             })
@@ -47,101 +29,13 @@ function Thread() {
 
     useEffect(() => {
         getPosts();
-        getUser();
+       
     }, []);
-    
-
-    const updateItem = (message) => {
-        axios.put('http://localhost:3000/api/post/feed',
-            message
-        )
-            .then((res) => {
-                if (res.data) {
-                    window.location = '/feed'
-                } else { }
-            })
-            .catch((error) => { console.log(error, 'error update') })
-    }
-
-
-    const deleteQuote = () => {
-
-    }
-
-
-    const like = () => {
-        if (liked === false) {
-            setLiked(true)
-        } else { }
-
-    }
-    const unlike = () => {
-        if (liked !== false) {
-            setLiked(false)
-        } else { }
-    }
-
-
-
 
     return (
         <div className="thread-container">
-            {posts.map((post) => {
-                return (
-                    <div className="card-post">
-                        <div className="pseudo">{users.map((user)=> {if (user._id === post.userId) return user.pseudo})}
-                        </div>
-                        <div className="container-contenu">
-                            <div className="message-post">{post.message}</div>
-                            <div className="photo-post-video">{post.image} {post.video}</div>
-                            {post.image && (
-                                <img src={post.image} alt="" className="card-pic" />
-                            )}
-                            {post.video && (
-                                <iframe
-                                    width="500"
-                                    height="300"
-                                    src={post.video}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    title={post._id}
-                                ></iframe>
-                            )}
-                        </div>
-                        <span>{dateParser(post.createdAt)}</span>
-                        <div className="container-settings">
-
-                            <div className="card-update">
-                                <div>
-                                    {isUpdated && (
-                                        <div className="update-post">
-                                            <textarea defaultValue={post.message} onChange={(e) => setTextUpdate(e.target.value)} />
-                                            <div className="btn-container">
-                                                <button className="btn" onClick={updateItem}>Valider modification</button>
-                                            </div>
-                                        </div>
-                                    )}
-                                    {//users._id === post.userId &&
-                                        (<button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
-                                            Modifier
-                                        </button>
-                                        )}
-                                </div>
-                            </div>
-                            <div className="delete-container">
-                                <button className="btn-delete" onClick={() => {
-                                    if (window.confirm('vous voulez supprimer')) {
-                                        deleteQuote();
-                                    }
-                                }}>Supprimer</button>
-                            </div>
-                        </div>
-                        <div className="like">
-                            <div>{liked === false && (<i className="fa-regular fa-heart" onClick={like}></i>)}
-                                {liked === true && (<i className="fa-solid fa-heart" onClick={unlike}></i>)}</div>
-                        </div>
-                    </div>
+            {posts && posts.map((post, key) => {
+                return (<div key= {key}> <Post post= {post} /></div>
                 )
             })}
 
