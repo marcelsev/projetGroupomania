@@ -16,10 +16,10 @@ const SignUpForm = () => {
         const controlPasswordError = document.querySelector(".password-conf.error");
         const terms = document.getElementById('terms');
         const termsError = document.querySelector('.terms.error');
-
+        
         controlPasswordError.innerHTML = "";
         termsError.innerHTML = "";
-
+        
         if (password !== controlPassword || !terms.checked) {
             if (password !== controlPassword)
                 controlPasswordError.innerHTML = "Les mots de passe ne correspondent pas";
@@ -44,7 +44,10 @@ const SignUpForm = () => {
                         passwordError.innerHTML = res.data.errors.password;
                         
                     } else {
-                        window.location = '/feed';
+                       alert('Bravo!, votre compte est enregistré :) ')
+                        window.location.reload();
+                        
+                      
                     }
                 })
                 .catch((err) => {

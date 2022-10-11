@@ -6,11 +6,18 @@ module.exports = (req, res, next) => {
         const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         const userId = decodedToken.userId;
         const admin = decodedToken.admin;
+        console.log(userId, 'user data')
+        console.log(admin, 'admin data')
         req.auth = {
             userId: userId,
             
         };
-        if (req.body.userId && req.body.userId !== userId) {
+        if (admin) {
+            console.log('admin?');
+            next();
+        }
+
+        if (req.body.userId && req.body.userId !== userId || admin ) {
             throw 'invalid';
 
         } else {

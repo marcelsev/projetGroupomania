@@ -35,7 +35,7 @@ exports.modifyPost = (req, res, next) => {
         } : { ...req.body };
     PostModel.findOne({ _id: req.params.id })
         .then(post => {
-            if (post.userId != req.auth.userId) {
+            if (post.userId != req.auth.userId || !req.auth.admin) {
                 res.status(401).json({ message: 'vous ne pouvez pas modifier' });
             } else {
                 PostModel.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
@@ -54,22 +54,41 @@ exports.getAllPost = (req, res, next) => {
 };
 
 
+// exports.deletePost = (req, res, next) => {
+//     PostModel.findOne({ _id: req.params.id })
+//         .then(post => {
+//             if (post.userId != req.auth.userId || !req.auth.admin) {
+//                 res.status(401).json({ message: 'Not authorized' })
+//             } else {
+//                 const filename = post.image.split('/images')[1];
+//                 fs.unlink(`images/${filename}`, () => {
+//                     PostModel.deleteOne({ _id: req.params.id })
+//                         .then(() => res.status(200).json({ message: ' Supprimée' }))
+//                         .catch(error => res.status(400).json({ error }));
+//                 });
+//             }
+//         })
+//         .catch((error) => { console.log(error, 'error delete') })
+// };
+
 exports.deletePost = (req, res, next) => {
     PostModel.findOne({ _id: req.params.id })
-        .then(post => {
-            if (post.userId != req.auth.userId) {
-                res.status(401).json({ message: 'Not authorized' })
-            } else {
-                const filename = post.image.split('/images')[1];
-                fs.unlink(`images/${filename}`, () => {
-                    PostModel.deleteOne({ _id: req.params.id })
-                        .then(() => res.status(200).json({ message: ' Supprimée' }))
-                        .catch(error => res.status(400).json({ error }));
-                });
-            }
+          .then(post => {
+                if (post.userId === req.auth.userId || req.auth.admin) {
+                    const filename = post.image.split('/images')[1];
+                    fs.unlink(`images/${filename}`, () => {
+                       PostModel.deleteOne({ _id: req.params.id })
+                         .then(() => res.status(200).json({ message: ' Supprimée' }))
+                           .catch(error => res.status(400).json({ error }));
+                   });
+
+                 
+                } else {
+                    res.status(401).json({ message: 'Not authorized' })
+                }
         })
-        .catch((error) => { console.log(error, 'error delete') })
-};
+            .catch((error) => { console.log(error, 'error delete') })
+     };
 
 exports.likePost = (req, res, next) => {
     switch (req.body.like) {

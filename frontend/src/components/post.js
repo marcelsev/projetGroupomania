@@ -5,12 +5,12 @@ import { dateParser } from "./utils";
 
 function Post(props) {
 
-    const { post, setIsLoad , userId ,admin } = props;
+    const { post, setIsLoad, userId, admin } = props;
     const [isUpdated, setIsUpdated] = useState(false);
     const [textUpdate, setTextUpdate] = useState(null);
     const [users, setUsers] = useState([]);
     const [liked, setLiked] = useState(false);
-    
+
     useEffect(() => {
         axios.get('http://localhost:3000/api/user')
             .then((res) => {
@@ -64,14 +64,39 @@ function Post(props) {
 
 
     const like = () => {
-        if (liked === false) {
-            setLiked(true)
+        if (userId !== post.userId) {
+            const likes = + 1
+
+            if (liked === false) {
+                axios.post(`http://localhost:3000/api/post/feed/${post._id}/like`,
+                    {
+                        headers:
+                        {
+                            Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
+                        }
+                    },
+                    likes)
+                    .then((res) => {
+                        setLiked(true)
+                    })
+            } else { }
         } else { }
+
 
     }
     const unlike = () => {
         if (liked !== false) {
-            setLiked(false)
+            axios.post(`http://localhost:3000/api/post/feed/${+ post._id}/like`,
+            
+                {
+                    headers:
+                    {
+                        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
+                    }
+                },)
+                .then((res) => {
+                    setLiked(false)
+                })
         } else { }
     }
 
@@ -113,17 +138,17 @@ function Post(props) {
                 </div>
             )}
 
-            {(userId === post.userId || admin)  && (
+            {(userId === post.userId || admin) && (
 
                 <><button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
                     Modifier
                 </button>
-                <button className="btn-delete" onClick={(e) => {
-                    if (window.confirm('vous voulez supprimer')) {
-                        deleteQuote(e);
+                    <button className="btn-delete" onClick={(e) => {
+                        if (window.confirm('vous voulez supprimer')) {
+                            deleteQuote(e);
+                        }
                     }
-                }
-                }>
+                    }>
                         Supprimer
                     </button></>
 
