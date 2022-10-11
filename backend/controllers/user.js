@@ -38,7 +38,8 @@ module.exports.signIn = (req, res, next) => {
                     admin: user.admin,
                     pseudo: user.pseudo,
                     token: jwt.sign(
-                        { userId: user._id },
+                        { userId: user._id,
+                        admin: user.admin },
                         'RANDOM_TOKEN_SECRET',
                         { expiresIn: '24h' }
                     )

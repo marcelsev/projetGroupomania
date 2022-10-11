@@ -10,19 +10,19 @@ module.exports = (req, res, next) => {
         console.log(admin, 'admin data')
         req.auth = {
             userId: userId,
-            
+            admin:admin 
         };
-        if (admin) {
-            console.log('admin?');
+        console.log(req.body)
+
+        if (req.body.userId && req.body.userId === admin  ||userId ) {
             next();
-        }
-
-        if (req.body.userId && req.body.userId !== userId || admin ) {
-            throw 'invalid';
-
+            
         } else {
-            next();
+            throw 'invalid action';
+
         }
+
+      
 
     }
     catch (error) {

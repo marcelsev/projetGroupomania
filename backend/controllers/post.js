@@ -35,12 +35,13 @@ exports.modifyPost = (req, res, next) => {
         } : { ...req.body };
     PostModel.findOne({ _id: req.params.id })
         .then(post => {
-            if (post.userId != req.auth.userId || !req.auth.admin) {
-                res.status(401).json({ message: 'vous ne pouvez pas modifier' });
-            } else {
+            if (post.userId === req.auth.userId || req.auth.admin) {
                 PostModel.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
                     .then(() => res.status(200).json({ message: 'post modifiée' }))
                     .catch(error => res.status(400).json({ error }));
+                
+            } else {
+                res.status(401).json({ message: 'vous ne pouvez pas modifier' });
             }
         })
         .catch((error) => res.status(500).json({ error }))
