@@ -5,19 +5,18 @@ import { dateParser } from "./utils";
 
 function Post(props) {
 
-    const { post, setIsLoad } = props;
+    const { post, setIsLoad , userId ,admin } = props;
     const [isUpdated, setIsUpdated] = useState(false);
     const [textUpdate, setTextUpdate] = useState(null);
     const [users, setUsers] = useState([]);
     const [liked, setLiked] = useState(false);
-    const userId = localStorage.getItem('id');
-    const admin = localStorage.getItem('admin');
-
+    
     useEffect(() => {
         axios.get('http://localhost:3000/api/user')
             .then((res) => {
                 //console.log(res.data)
                 return setUsers(res.data);
+
 
             })
             .catch((err) => { return console.log(err) })
@@ -62,7 +61,7 @@ function Post(props) {
                 .catch((error) => { console.log(error, 'error update') })
         }
     };
-    
+
 
     const like = () => {
         if (liked === false) {
@@ -104,35 +103,33 @@ function Post(props) {
 
 
         <div className="container-settings">
-            <div className="card-update">
 
-                <div>
-                    {isUpdated && (
-
-                        <div className="update-post">
-                            <textarea defaultValue={post.message} onChange={(e) => setTextUpdate(e.target.value)} />
-                            <div className="btn-container">
-                                <button className="btn" onClick={updateItem}>Valider modification</button>
-                            </div>
-                        </div>
-                    )}
-                    {(userId === post.userId || admin) && (
-                        <button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
-                            Modifier
-                        </button>)}
+            {isUpdated && (
+                <div className="update-post">
+                    <textarea defaultValue={post.message} onChange={(e) => setTextUpdate(e.target.value)} />
+                    <div className="btn-container">
+                        <button className="btn" onClick={updateItem}>Valider modification</button>
+                    </div>
                 </div>
-            </div>
-            <div className="delete-container">
-                {(userId === post.userId || admin) && (
-                    <button className="btn-delete" onClick={(e) => {
-                        if (window.confirm('vous voulez supprimer')) {
-                            deleteQuote(e);
-                        }
-                    }}>Supprimer</button>)}
+            )}
 
-            </div>
+            {(userId === post.userId || admin)  && (
+
+                <><button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
+                    Modifier
+                </button>
+                <button className="btn-delete" onClick={(e) => {
+                    if (window.confirm('vous voulez supprimer')) {
+                        deleteQuote(e);
+                    }
+                }
+                }>
+                        Supprimer
+                    </button></>
+
+            )}
+
         </div>
-
 
 
         <div className="like">

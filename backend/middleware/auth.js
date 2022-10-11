@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
         const admin = decodedToken.admin;
         req.auth = {
             userId: userId,
-            admin: admin
+            
         };
         if (req.body.userId && req.body.userId !== userId) {
             throw 'invalid';
