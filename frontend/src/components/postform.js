@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { timestampParser } from './utils';
 import axios from 'axios';
-
+//import { useNavigate } from 'react-router-dom';
 
 const Postform = () => {
 
     const [message, setMessage] = useState("");
     const [video, setVideo] = useState('');
     const [image, setImage] = useState("");
-    //console.log (image)
-
+    //const navigate= useNavigate();   
     const pseudo = localStorage.getItem('pseudo')
     const nom = pseudo.replace(/[ '"]+/g, ' ')
 
@@ -23,12 +22,11 @@ const Postform = () => {
     const handlePost = () => {
         if (message || image || video) {
             const getImage = image
-            console.log("Image is " + getImage)
+            // console.log("Image is " + getImage)
             const data = new FormData()
             data.append("message", message)
             data.append("image", getImage);
             data.append("video", video)
-
             const option = {
                 headers:
                 {
@@ -42,7 +40,8 @@ const Postform = () => {
                 .then((res) => {
                     if (res.data) {
                         window.location = '/feed'
-                    } else { }
+                        //return navigate('/feed')
+                    }
                 })
                 .catch((error) => { console.log(error, 'error big') })
         } else {

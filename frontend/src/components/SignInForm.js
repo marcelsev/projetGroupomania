@@ -28,6 +28,7 @@ const SignInForm = () => {
                     localStorage.setItem("token", JSON.stringify(res.data.token));
                     localStorage.setItem("id", JSON.stringify(res.data.userId));
                     localStorage.setItem("pseudo", JSON.stringify(res.data.pseudo));
+                    localStorage.setItem("admin", JSON.stringify(res.data.admin));
                     window.location = '/feed';
                 }
             })

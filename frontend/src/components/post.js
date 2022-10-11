@@ -5,12 +5,13 @@ import { dateParser } from "./utils";
 
 function Post(props) {
 
-    const{post}= props;
+    const { post, setIsLoad } = props;
     const [isUpdated, setIsUpdated] = useState(false);
     const [textUpdate, setTextUpdate] = useState(null);
     const [users, setUsers] = useState([]);
     const [liked, setLiked] = useState(false);
-
+    const userId = localStorage.getItem('id');
+    const admin = localStorage.getItem('admin');
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/user')
@@ -20,36 +21,49 @@ function Post(props) {
 
             })
             .catch((err) => { return console.log(err) })
-    },[]);
-    
+    }, []);
+
+
     const deleteQuote = (e) => {
         e.preventDefault();
-        
-       
-        axios.delete('http://localhost:3000/api/post/feed/'+post._id, {
+        axios.delete('http://localhost:3000/api/post/feed/' + post._id, {
             headers:
             {
                 Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
             }
         })
             .then(() => {
-                window.location = '/feed'
+                setIsLoad(true)
             })
             .catch((err) => { console.log(err) })
     }
-    const updateItem = (message,) => {
-        axios.put(`http://localhost:3000/api/post/feed/`,
-            message
-        )
-            .then((res) => {
-                if (res.data) {
-                    window.location = '/feed'
-                } else { }
-            })
-            .catch((error) => { console.log(error, 'error update') })
-    }
 
+
+    const updateItem = (message) => {
+        const data = {
+            message: textUpdate
+        }
+        if (textUpdate) {
+            axios.put(`http://localhost:3000/api/post/feed/` + post._id,
+                data,
+                {
+                    headers:
+                    {
+                        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('token')),
+                    }
+                },
+                message
+            )
+                .then((res) => {
+                    setIsUpdated(false);
+                    setIsLoad(true);
+                    //window.location= './feed'
+                })
+                .catch((error) => { console.log(error, 'error update') })
+        }
+    };
     
+
     const like = () => {
         if (liked === false) {
             setLiked(true)
@@ -63,7 +77,7 @@ function Post(props) {
     }
 
 
-    
+
     return <div className="card-post">
         {users.map((user, i) => (user._id === post.userId &&
             <div className="pseudo" key={i}>{user.pseudo}
@@ -87,11 +101,14 @@ function Post(props) {
             )}
         </div>
         <span>{dateParser(post.createdAt)}</span>
-        <div className="container-settings">
 
+
+        <div className="container-settings">
             <div className="card-update">
+
                 <div>
                     {isUpdated && (
+
                         <div className="update-post">
                             <textarea defaultValue={post.message} onChange={(e) => setTextUpdate(e.target.value)} />
                             <div className="btn-container">
@@ -99,21 +116,25 @@ function Post(props) {
                             </div>
                         </div>
                     )}
-                    {//users._id === post.userId &&
-                        (<button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
+                    {(userId === post.userId || admin) && (
+                        <button className="btn-modif" onClick={() => setIsUpdated(!isUpdated)}>
                             Modifier
-                        </button>
-                        )}
+                        </button>)}
                 </div>
             </div>
             <div className="delete-container">
-                <button className="btn-delete" onClick={(e) => {
-                    if (window.confirm('vous voulez supprimer')) {
-                        deleteQuote(e);
-                    }
-                }}>Supprimer</button>
+                {(userId === post.userId || admin) && (
+                    <button className="btn-delete" onClick={(e) => {
+                        if (window.confirm('vous voulez supprimer')) {
+                            deleteQuote(e);
+                        }
+                    }}>Supprimer</button>)}
+
             </div>
         </div>
+
+
+
         <div className="like">
             <div>{liked === false && (<i className="fa-regular fa-heart" onClick={like}></i>)}
                 {liked === true && (<i className="fa-solid fa-heart" onClick={unlike}></i>)}</div>
