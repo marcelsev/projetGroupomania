@@ -126,16 +126,16 @@
     .img-container {
 
       img {
-        height: 100%;
+        height: 300px;
         width: 100%;
         object-fit: contain;
 
         @media screen and(max-width: 1050px) {
-          height: auto;
+          height: 300px;
         }
 
         @media screen and(max-width: 950px) {
-          height: auto;
+          height: 300px;
         }
 
         @media screen and(max-width: 885px) {
