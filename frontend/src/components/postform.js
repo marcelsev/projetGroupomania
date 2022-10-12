@@ -22,7 +22,6 @@ const Postform = () => {
     const handlePost = () => {
         if (message || image || video) {
             const getImage = image
-            // console.log("Image is " + getImage)
             const data = new FormData()
             data.append("message", message)
             data.append("image", getImage);

@@ -64,6 +64,8 @@
           h1 {
             font-size: 110%;
           }
+          .nom{ color: $colorprimaire;
+          font-weight: bolder;}
         }
 
         @media screen and(max-width: 550px) {

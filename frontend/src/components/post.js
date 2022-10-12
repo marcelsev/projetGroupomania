@@ -21,6 +21,7 @@ function Post(props) {
       });
   }, []);
 
+
   const deleteQuote = (e) => {
     e.preventDefault();
     axios
@@ -36,6 +37,7 @@ function Post(props) {
         console.log(err);
       });
   };
+
 
   const updateItem = (message) => {
     const data = {
@@ -65,13 +67,13 @@ function Post(props) {
     }
   };
 
+
   const like = () => {
     if (userId !== post.userId) {
       const likeToSend = {
         like: 1,
         userId: userId.slice(1, -1),
       };
-
       if (liked === false) {
         axios
           .post(
@@ -102,6 +104,7 @@ function Post(props) {
     }
   }, [userId, post.usersLiked]);
 
+
   const dislike = () => {
     if (userId !== post.userId) {
       if (liked === true) {
@@ -113,7 +116,6 @@ function Post(props) {
           .post(
             `http://localhost:3000/api/post/feed/${post._id}/like`,
             dislike,
-
             {
               headers: {
                 Authorization:
