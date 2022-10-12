@@ -83,11 +83,7 @@ exports.likePost = (req, res, next) => {
                 .catch(error => res.status(400).json({ error }));
             break;
 
-        // case -1:
-        //     PostModel.updateOne({ _id: req.params.id }, { $inc: { dislikes: +1 }, $push: { usersDisliked: req.body.userId } })
-        //         .then(() => res.status(200).json({ message: ' dislikée' }))
-        //         .catch(error => res.status(400).json({ error }));
-        //     break;
+        
 
         case 0:
             PostModel.findOne({ _id: req.params.id })
@@ -102,21 +98,14 @@ exports.likePost = (req, res, next) => {
                             .catch((error) => res.status(400).json({ error }));
                     }
 
-                    // else if (post.usersDisliked.includes(req.body.userId)) {
-                    //     PostModel.updateOne(
-                    //         { _id: req.params.id },
-                    //         { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
-                    //     )
-                    //         .then(() => res.status(201).json({ message: 'dislike annulé' }))
-                    //         .catch((error) => res.status(400).json({ error }));
-                    // }
+                   
 
                     else {
                         res.status(403).json({ message: "erreur." })
                             .catch((error) => res.status(400).json({ error }));
                     }
                 })
-                .catch(() => res.status(500).json({ error }));
+                .catch((error) => res.status(500).json({ error }));
             break;
     }
 };

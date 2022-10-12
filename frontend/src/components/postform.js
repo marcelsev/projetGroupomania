@@ -10,7 +10,7 @@ const Postform = () => {
     const [image, setImage] = useState("");
     //const navigate= useNavigate();   
     const pseudo = localStorage.getItem('pseudo')
-    const nom = pseudo.replace(/[ '"]+/g, ' ')
+    
 
 
     const handlePicture = (e) => {
@@ -82,7 +82,7 @@ const Postform = () => {
     return (
         <div className='container-form-post'>
             <div className='post-form'>
-                <div className='pseudo-poster'>{nom} :</div>
+                <div className='pseudo-poster'>{pseudo.slice(1,-1)} :</div>
                 <textarea
                     name='message'
                     id='message'

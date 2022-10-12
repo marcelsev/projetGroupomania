@@ -25,7 +25,7 @@ const Navbar = () => {
                 ) : (
                     <ul>
                         <li className="welcome">
-                            <h1>Bienvienue :  </h1><p className="nom">{pseudo} </p>
+                            <h1>Bienvienue :  </h1><p className="nom">{pseudo.slice(1,-1)} </p>
                         </li>
                         <Logout />
                     </ul>
