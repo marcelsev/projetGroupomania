@@ -7,7 +7,7 @@ function Thread() {
     const [posts, setPosts] = useState([]);
     const [isLoad, setIsLoad] = useState(true);
     const [userId, setUserId] = useState();
-    const [admin, setAdmin] = useState(); 
+    const [admin, setAdmin] = useState();
 
     useEffect(() => {
         if (isLoad) {

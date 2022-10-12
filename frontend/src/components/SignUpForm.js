@@ -16,10 +16,10 @@ const SignUpForm = () => {
         const controlPasswordError = document.querySelector(".password-conf.error");
         const terms = document.getElementById('terms');
         const termsError = document.querySelector('.terms.error');
-        
+
         controlPasswordError.innerHTML = "";
         termsError.innerHTML = "";
-        
+
         if (password !== controlPassword || !terms.checked) {
             if (password !== controlPassword)
                 controlPasswordError.innerHTML = "Les mots de passe ne correspondent pas";
@@ -42,12 +42,12 @@ const SignUpForm = () => {
                         pseudoError.innerHTML = res.data.errors.pseudo;
                         emailError.innerHTML = res.data.errors.email;
                         passwordError.innerHTML = res.data.errors.password;
-                        
+
                     } else {
-                       alert('Bravo!, votre compte est enregistré :) ')
+                        alert('Bravo!, votre compte est enregistré :) ')
                         window.location.reload();
-                        
-                      
+
+
                     }
                 })
                 .catch((err) => {
@@ -72,7 +72,7 @@ const SignUpForm = () => {
             <br />
             <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} value={password} />
             <div className="password error"></div>
-            <br/>
+            <br />
             <label htmlFor="password-conf">Confirmer mot de passe</label>
             <br />
             <input type="password" name="password" id="password-conf" onChange={(e) => setControlPassword(e.target.value)} value={controlPassword} />

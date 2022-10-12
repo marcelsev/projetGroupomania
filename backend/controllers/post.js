@@ -39,7 +39,7 @@ exports.modifyPost = (req, res, next) => {
                 PostModel.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
                     .then(() => res.status(200).json({ message: 'post modifiée' }))
                     .catch(error => res.status(400).json({ error }));
-                
+
             } else {
                 res.status(401).json({ message: 'vous ne pouvez pas modifier' });
             }
@@ -55,41 +55,25 @@ exports.getAllPost = (req, res, next) => {
 };
 
 
-// exports.deletePost = (req, res, next) => {
-//     PostModel.findOne({ _id: req.params.id })
-//         .then(post => {
-//             if (post.userId != req.auth.userId || !req.auth.admin) {
-//                 res.status(401).json({ message: 'Not authorized' })
-//             } else {
-//                 const filename = post.image.split('/images')[1];
-//                 fs.unlink(`images/${filename}`, () => {
-//                     PostModel.deleteOne({ _id: req.params.id })
-//                         .then(() => res.status(200).json({ message: ' Supprimée' }))
-//                         .catch(error => res.status(400).json({ error }));
-//                 });
-//             }
-//         })
-//         .catch((error) => { console.log(error, 'error delete') })
-// };
 
 exports.deletePost = (req, res, next) => {
     PostModel.findOne({ _id: req.params.id })
-          .then(post => {
-                if (post.userId === req.auth.userId || req.auth.admin) {
-                    const filename = post.image.split('/images')[1];
-                    fs.unlink(`images/${filename}`, () => {
-                       PostModel.deleteOne({ _id: req.params.id })
-                         .then(() => res.status(200).json({ message: ' Supprimée' }))
-                           .catch(error => res.status(400).json({ error }));
-                   });
+        .then(post => {
+            if (post.userId === req.auth.userId || req.auth.admin) {
+                const filename = post.image.split('/images')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    PostModel.deleteOne({ _id: req.params.id })
+                        .then(() => res.status(200).json({ message: ' Supprimée' }))
+                        .catch(error => res.status(400).json({ error }));
+                });
 
-                 
-                } else {
-                    res.status(401).json({ message: 'Not authorized' })
-                }
+
+            } else {
+                res.status(401).json({ message: 'Not authorized' })
+            }
         })
-            .catch((error) => { console.log(error, 'error delete') })
-     };
+        .catch((error) => { console.log(error, 'error delete') })
+};
 
 exports.likePost = (req, res, next) => {
     switch (req.body.like) {
@@ -99,11 +83,11 @@ exports.likePost = (req, res, next) => {
                 .catch(error => res.status(400).json({ error }));
             break;
 
-        case -1:
-            PostModel.updateOne({ _id: req.params.id }, { $inc: { dislikes: +1 }, $push: { usersDisliked: req.body.userId } })
-                .then(() => res.status(200).json({ message: ' dislikée' }))
-                .catch(error => res.status(400).json({ error }));
-            break;
+        // case -1:
+        //     PostModel.updateOne({ _id: req.params.id }, { $inc: { dislikes: +1 }, $push: { usersDisliked: req.body.userId } })
+        //         .then(() => res.status(200).json({ message: ' dislikée' }))
+        //         .catch(error => res.status(400).json({ error }));
+        //     break;
 
         case 0:
             PostModel.findOne({ _id: req.params.id })
@@ -118,14 +102,14 @@ exports.likePost = (req, res, next) => {
                             .catch((error) => res.status(400).json({ error }));
                     }
 
-                    else if (post.usersDisliked.includes(req.body.userId)) {
-                        PostModel.updateOne(
-                            { _id: req.params.id },
-                            { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
-                        )
-                            .then(() => res.status(201).json({ message: 'dislike annulé' }))
-                            .catch((error) => res.status(400).json({ error }));
-                    }
+                    // else if (post.usersDisliked.includes(req.body.userId)) {
+                    //     PostModel.updateOne(
+                    //         { _id: req.params.id },
+                    //         { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
+                    //     )
+                    //         .then(() => res.status(201).json({ message: 'dislike annulé' }))
+                    //         .catch((error) => res.status(400).json({ error }));
+                    // }
 
                     else {
                         res.status(403).json({ message: "erreur." })

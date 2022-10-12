@@ -3,12 +3,12 @@ import Routes from './components/routes';
 
 
 
-const App= () => {
+const App = () => {
   return (
     <div>
-     
-        <Routes /> 
-      
+
+      <Routes />
+
     </div>
   );
 }

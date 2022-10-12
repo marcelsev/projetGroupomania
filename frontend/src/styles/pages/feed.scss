@@ -197,19 +197,21 @@
         width: 80%;
         height: 230px;
       }
+
       span {
-          font-size: x-small;
-          display: flex;
-          justify-content: flex-end;
-          margin-right: 48px;
+        font-size: x-small;
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 48px;
       }
+
       .container-settings {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
 
 
-       
+
         .btn-modif {
           background-color: $colorsecondaire;
           border-radius: 5px;

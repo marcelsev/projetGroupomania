@@ -45,7 +45,7 @@ const Postform = () => {
                 })
                 .catch((error) => { console.log(error, 'error big') })
         } else {
-            alert("mettre text ")
+            alert("Veuillez écrire un message ")
         }
     }
 

@@ -3,8 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-const userRoutes= require ('./routes/user');
-const feedRoutes = require ('./routes/post');
+const userRoutes = require('./routes/user');
+const feedRoutes = require('./routes/post');
 
 mongoose.connect('mongodb+srv://marcelo:marcelo2022@clusterdata0.79vepam.mongodb.net/?retryWrites=true&w=majority',
     {

@@ -10,6 +10,7 @@ function Post(props) {
     const [textUpdate, setTextUpdate] = useState(null);
     const [users, setUsers] = useState([]);
     const [liked, setLiked] = useState(false);
+    const [click, setClick] = useState(false);
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/user')
@@ -65,7 +66,7 @@ function Post(props) {
 
     const like = () => {
         if (userId !== post.userId) {
-            const likes = + 1
+            const likes = +1;
 
             if (liked === false) {
                 axios.post(`http://localhost:3000/api/post/feed/${post._id}/like`,
@@ -84,10 +85,12 @@ function Post(props) {
 
 
     }
+
+
     const unlike = () => {
         if (liked !== false) {
             axios.post(`http://localhost:3000/api/post/feed/${+ post._id}/like`,
-            
+
                 {
                     headers:
                     {

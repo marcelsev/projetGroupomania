@@ -15,44 +15,48 @@ module.exports.signup = (req, res, next) => {
             });
             user.save()
                 .then(() => res.status(201).json({ message: 'utilisateur créé' }))
-                .catch(err => {const errors= signUpErrors(err); res.status(200).json({ message: 'utilisateur/email déjà enregistré ', errors })});
+                .catch(err => { const errors = signUpErrors(err); res.status(200).json({ message: 'utilisateur/email déjà enregistré ', errors }) });
         })
-        .catch (err => { const errors= signUpErrors(err);
-        res.status(200).send({errors})});
-    
+        .catch(err => {
+            const errors = signUpErrors(err);
+            res.status(200).send({ errors })
+        });
+
 };
 
 module.exports.signIn = (req, res, next) => {
     UserModel.findOne({ email: req.body.email })
-    .then(user => {
-        if (!user) {
-            return res.status(401).json({ errors});
-        }
-        bcrypt.compare(req.body.password, user.password)
-            .then(valid => {
-                if (!valid) {
-                    return res.status(402).json({ errors });
-                }
-                res.status(200).json({
-                    userId: user._id,
-                    admin: user.admin,
-                    pseudo: user.pseudo,
-                    token: jwt.sign(
-                        { userId: user._id,
-                        admin: user.admin },
-                        'RANDOM_TOKEN_SECRET',
-                        { expiresIn: '24h' }
-                    )
-                });
-            })
-            .catch(err => {const errors= signInErrors(err); res.status(200).json({ message: 'email ou mot de passe incorrecte', errors })});
-    })
-    .catch(err => {const errors= signInErrors(err); res.status(200).send({ message: 'incorrecte ', errors })});
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({ errors });
+            }
+            bcrypt.compare(req.body.password, user.password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(402).json({ errors });
+                    }
+                    res.status(200).json({
+                        userId: user._id,
+                        admin: user.admin,
+                        pseudo: user.pseudo,
+                        token: jwt.sign(
+                            {
+                                userId: user._id,
+                                admin: user.admin
+                            },
+                            'RANDOM_TOKEN_SECRET',
+                            { expiresIn: '24h' }
+                        )
+                    });
+                })
+                .catch(err => { const errors = signInErrors(err); res.status(200).json({ message: 'email ou mot de passe incorrecte', errors }) });
+        })
+        .catch(err => { const errors = signInErrors(err); res.status(200).send({ message: 'incorrecte ', errors }) });
 };
 
 module.exports.logout = (req, res, next) => {
     const maxAge = 24;
-    res.cookie('jwr', '', {maxAge: 1});
+    res.cookie('jwr', '', { maxAge: 1 });
     res.redirect('/');
 }
 

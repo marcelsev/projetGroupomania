@@ -10,19 +10,19 @@ module.exports = (req, res, next) => {
         console.log(admin, 'admin data')
         req.auth = {
             userId: userId,
-            admin:admin 
+            admin: admin
         };
         console.log(req.body)
 
-        if (req.body.userId && req.body.userId === admin  ||userId ) {
+        if (req.body.userId && req.body.userId === admin || userId) {
             next();
-            
+
         } else {
             throw 'invalid action';
 
         }
 
-      
+
 
     }
     catch (error) {
