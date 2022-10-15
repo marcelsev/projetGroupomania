@@ -97,7 +97,8 @@ function Post(props) {
   };
 
   useEffect(() => {
-    if (post.usersLiked.includes(userId)) {
+    if (post.usersLiked.includes(userId.slice(1, -1))) {
+      
       setLiked(true);
     } else {
       setLiked(false);
